@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بروفيل المشترك - جيم</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0D1B2A 0%, #1F3864 100%);
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.card {
+  background: white; border-radius: 20px; padding: 40px 32px;
+  max-width: 420px; width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4); text-align: center;
+}
+.gym-logo { font-size: 48px; margin-bottom: 8px; }
+.gym-title { font-size: 22px; font-weight: 700; color: #1F3864; margin-bottom: 4px; }
+.gym-sub { font-size: 13px; color: #888; margin-bottom: 28px; }
+.avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, #2E75B6, #00B0F0);
+  color: white; font-size: 28px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.member-name { font-size: 20px; font-weight: 700; color: #1F3864; margin-bottom: 6px; }
+.member-code {
+  font-size: 13px; color: #666; background: #EBF3FB;
+  display: inline-block; padding: 4px 14px; border-radius: 20px; margin-bottom: 6px;
+}
+.member-job { font-size: 13px; color: #888; margin-bottom: 20px; }
+.status-badge {
+  display: inline-block; background: #C6EFCE; color: #276221;
+  font-size: 12px; font-weight: 600; padding: 4px 14px;
+  border-radius: 20px; margin-bottom: 24px;
+}
+.divider { height: 1px; background: #eee; margin: 20px 0; }
+.qr-label { font-size: 13px; color: #888; margin-bottom: 16px; }
+#qrcode { display: flex; justify-content: center; margin-bottom: 20px; }
+#qrcode canvas { border-radius: 12px; border: 4px solid #EBF3FB; padding: 8px; }
+.share-btn {
+  background: linear-gradient(135deg, #1F3864, #2E75B6);
+  color: white; border: none; border-radius: 12px;
+  padding: 12px 28px; font-size: 14px; font-weight: 600;
+  cursor: pointer; width: 100%; font-family: inherit;
+}
+.share-btn:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="gym-logo">🏋️</div>
+  <div class="gym-title">حجوزات الجيم</div>
+  <div class="gym-sub">بطاقة المشترك الرسمية</div>
+  <div id="content"></div>
+</div>
+
+<!-- QR code library self-contained -->
+<script>
+// Minimal QR Code generator (pure JS, no external deps)
+// Based on qrcodejs - inlined
+var QRCode=function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this.parsedData=[];for(var b=[],d=0,e=this.data.length;e>d;d++){var f=this.data.charCodeAt(d);if(f>65536?(b[0]=240|(1835008&f)>>>18,b[1]=128|(258048&f)>>>12,b[2]=128|(4032&f)>>>6,b[3]=128|63&f):f>2048?(b[0]=224|(61440&f)>>>12,b[1]=128|(4032&f)>>>6,b[2]=128|63&f):f>128?(b[0]=192|(1984&f)>>>6,b[1]=128|63&f):b[0]=f,this.parsedData=this.parsedData.concat(b),b=[]);}this.parsedData.length!=this.data.length&&(this.parsedData.unshift(191),this.parsedData.unshift(187),this.parsedData.unshift(239))}function b(a,b){this.typeNumber=a,this.errorCorrectLevel=b,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}a.prototype={getLength:function(){return this.parsedData.length},write:function(a){for(var b=0,c=this.parsedData.length;c>b;b++)a.put(this.parsedData[b],8)}};var c={MODE_NUMBER:1,MODE_ALPHA_NUM:2,MODE_8BIT_BYTE:4,MODE_KANJI:8},d={L:1,M:0,Q:3,H:2},e={PATTERN000:0,PATTERN001:1,PATTERN010:2,PATTERN011:3,PATTERN100:4,PATTERN101:5,PATTERN110:6,PATTERN111:7};b.prototype={addData:function(b){var c=new a(b);this.dataList.push(c),this.dataCache=null},isDark:function(a,b){if(0>a||this.moduleCount<=a||0>b||this.moduleCount<=b)throw new Error(a+","+b);return this.modules[a][b]},getModuleCount:function(){return this.moduleCount},make:function(){this.makeImpl(!1,this.getBestMaskPattern())},makeImpl:function(a,c){this.moduleCount=4*this.typeNumber+17,this.modules=new Array(this.moduleCount);for(var d=0;d<this.moduleCount;d++){this.modules[d]=new Array(this.moduleCount);for(var e=0;e<this.moduleCount;e++)this.modules[d][e]=null}this.setupPositionProbePattern(0,0),this.setupPositionProbePattern(this.moduleCount-7,0),this.setupPositionProbePattern(0,this.moduleCount-7),this.setupPositionAdjustPattern(),this.setupTimingPattern(),this.setupTypeInfo(a,c),this.typeNumber>=7&&this.setupTypeNumber(a),null==this.dataCache&&(this.dataCache=b.createData(this.typeNumber,this.errorCorrectLevel,this.dataList)),this.mapData(this.dataCache,c)},setupPositionProbePattern:function(a,b){for(var c=-1;7>=c;c++)if(!(-1>=a+c||this.moduleCount<=a+c))for(var d=-1;7>=d;d++)-1>=b+d||this.moduleCount<=b+d||(this.modules[a+c][b+d]=c>=0&&6>=c&&(0==d||6==d)||d>=0&&6>=d&&(0==c||6==c)||c>=2&&4>=c&&d>=2&&4>=d?!0:!1)},getBestMaskPattern:function(){for(var a=0,b=0,c=0;8>c;c++){this.makeImpl(!0,c);var d=f.getLostPoint(this);(0==c||a>d)&&(a=d,b=c)}return b},setupTimingPattern:function(){for(var a=8;a<this.moduleCount-8;a++)null==this.modules[a][6]&&(this.modules[a][6]=0==a%2);for(var b=8;b<this.moduleCount-8;b++)null==this.modules[6][b]&&(this.modules[6][b]=0==b%2)},setupPositionAdjustPattern:function(){for(var a=f.getPatternPosition(this.typeNumber),b=0;b<a.length;b++)for(var c=0;c<a.length;c++){var d=a[b],e=a[c];if(null==this.modules[d][e])for(var g=-2;2>=g;g++)for(var h=-2;2>=h;h++)this.modules[d+g][e+h]=-2==g||2==g||-2==h||2==h||0==g&&0==h?!0:!1}},setupTypeNumber:function(a){for(var b=f.getBCHTypeNumber(this.typeNumber),c=0;18>c;c++){var d=!a&&1==(b>>c&1);this.modules[Math.floor(c/3)][c%3+this.moduleCount-8-3]=d}for(var c=0;18>c;c++){var d=!a&&1==(b>>c&1);this.modules[c%3+this.moduleCount-8-3][Math.floor(c/3)]=d}},setupTypeInfo:function(a,b){for(var c=this.errorCorrectLevel<<3|b,d=f.getBCHTypeInfo(c),e=0;15>e;e++){var g=!a&&1==(d>>e&1);6>e?this.modules[e][8]=g:8>e?this.modules[e+1][8]=g:this.modules[this.moduleCount-15+e][8]=g}for(var e=0;15>e;e++){var g=!a&&1==(d>>e&1);8>e?this.modules[8][this.moduleCount-e-1]=g:9>e?this.modules[8][15-e-1+1]=g:this.modules[8][15-e-1]=g}this.modules[this.moduleCount-8][8]=!a},mapData:function(a,b){for(var c=-1,d=this.moduleCount-1,g=7,h=0,i=this.moduleCount-1;i>0;i-=2)for(6==i&&i--;;){for(var j=0;2>j;j++)if(null==this.modules[d][i-j]){var k=!1;h<a.length&&(k=1==(a[h]>>>g&1)),f.getMask(b,d,i-j)&&(k=!k),this.modules[d][i-j]=k,g--,-1==g&&(h++,g=7)}if(d+=c,0>d||this.moduleCount<=d){d-=c,c=-c;break}}}},b.PAD0=236,b.PAD1=17,b.createData=function(a,c,d){for(var e=b.getRSBlocks(a,c),g=new h,i=0;i<d.length;i++){var j=d[i];g.put(j.mode,4),g.put(j.getLength(),f.getLengthInBits(j.mode,a)),j.write(g)}for(var k=0,i=0;i<e.length;i++)k+=e[i].dataCount;if(g.getLengthInBits()>8*k)throw new Error("code length overflow. ("+g.getLengthInBits()+">"+8*k+")");for(g.getLengthInBits()+4<=8*k&&g.put(0,4);0!=g.getLengthInBits()%8;)g.putBit(!1);for(;;){if(g.getLengthInBits()>=8*k)break;if(g.put(b.PAD0,8),g.getLengthInBits()>=8*k)break;g.put(b.PAD1,8)}return b.createBytes(g,e)},b.createBytes=function(a,b){for(var c=0,d=0,e=0,g=new Array(b.length),h=new Array(b.length),i=0;i<b.length;i++){var j=b[i].dataCount,k=b[i].totalCount-j;d=Math.max(d,j),e=Math.max(e,k),g[i]=new Array(j);for(var l=0;l<g[i].length;l++)g[i][l]=255&a.buffer[c++];h[i]=new Array(k);for(var l=0;l<h[i].length;l++)h[i][l]=0}for(var m=new Array(b.length),n=0,i=0;i<b.length;i++){m[i]=f.getErrorCorrectPolynomial(b[i].totalCount-b[i].dataCount);var o=new j(g[i],m[i].getLength()-1),p=o.mod(m[i]);h[i]=new Array(m[i].getLength()-1);for(var l=0;l<h[i].length;l++){var q=l+p.getLength()-h[i].length;h[i][l]=q>=0?p.get(q):0}}for(var r=0,l=0;l<b.length;l++)r+=b[l].totalCount;for(var s=new Array(r),t=0,i=0;d>i;i++)for(var l=0;l<b.length;l++)i<g[l].length&&(s[t++]=g[l][i]);for(var i=0;e>i;i++)for(var l=0;l<b.length;l++)i<h[l].length&&(s[t++]=h[l][i]);return s};var f={PATTERN_POSITION_TABLE:[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,132],[6,34,60,86,112,136],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],G15:1335,G18:7973,G15_MASK:21522,getBCHTypeInfo:function(a){for(var b=a<<10;f.getBCHDigit(b)-f.getBCHDigit(f.G15)>=0;)b^=f.G15<<f.getBCHDigit(b)-f.getBCHDigit(f.G15);return(a<<10|b)^f.G15_MASK},getBCHTypeNumber:function(a){for(var b=a<<12;f.getBCHDigit(b)-f.getBCHDigit(f.G18)>=0;)b^=f.G18<<f.getBCHDigit(b)-f.getBCHDigit(f.G18);return a<<12|b},getBCHDigit:function(a){for(var b=0;0!=a;)b++,a>>>=1;return b},getPatternPosition:function(a){return f.PATTERN_POSITION_TABLE[a-1]},getMask:function(a,b,c){switch(a){case e.PATTERN000:return 0==(b+c)%2;case e.PATTERN001:return 0==b%2;case e.PATTERN010:return 0==c%3;case e.PATTERN011:return 0==(b+c)%3;case e.PATTERN100:return 0==(Math.floor(b/2)+Math.floor(c/3))%2;case e.PATTERN101:return 0==b*c%2+b*c%3;case e.PATTERN110:return 0==(b*c%2+b*c%3)%2;case e.PATTERN111:return 0==(b*c%3+(b+c)%2)%2;default:throw new Error("bad maskPattern:"+a)}},getErrorCorrectPolynomial:function(a){for(var b=new j([1],0),c=0;a>c;c++)b=b.multiply(new j([1,i.gexp(c)],0));return b},getLengthInBits:function(a,b){if(b>=1&&10>b)switch(a){case c.MODE_NUMBER:return 10;case c.MODE_ALPHA_NUM:return 9;case c.MODE_8BIT_BYTE:return 8;case c.MODE_KANJI:return 8;default:throw new Error("mode:"+a)}else if(27>b)switch(a){case c.MODE_NUMBER:return 12;case c.MODE_ALPHA_NUM:return 11;case c.MODE_8BIT_BYTE:return 16;case c.MODE_KANJI:return 10;default:throw new Error("mode:"+a)}else{if(!(41>b))throw new Error("type:"+b);switch(a){case c.MODE_NUMBER:return 14;case c.MODE_ALPHA_NUM:return 13;case c.MODE_8BIT_BYTE:return 16;case c.MODE_KANJI:return 12;default:throw new Error("mode:"+a)}}},getLostPoint:function(a){for(var b=a.getModuleCount(),c=0,d=0;b>d;d++)for(var e=0;b>e;e++){for(var g=0,h=a.isDark(d,e),i=-1;1>=i;i++)if(!(0>d+i||b<=d+i))for(var j=-1;1>=j;j++)0>e+j||b<=e+j||i==0&&j==0||(h==a.isDark(d+i,e+j)&&g++);g>5&&(c+=3+g-5)}for(var d=0;b-1>d;d++)for(var e=0;b-1>e;e++){var k=0;a.isDark(d,e)&&k++,a.isDark(d+1,e)&&k++,a.isDark(d,e+1)&&k++,a.isDark(d+1,e+1)&&k++,(0==k||4==k)&&(c+=3)}for(var d=0;b>d;d++)for(var e=0;b-6>e;e++)a.isDark(d,e)&&!a.isDark(d,e+1)&&a.isDark(d,e+2)&&a.isDark(d,e+3)&&a.isDark(d,e+4)&&!a.isDark(d,e+5)&&a.isDark(d,e+6)&&(c+=40);for(var e=0;b>e;e++)for(var d=0;b-6>d;d++)a.isDark(d,e)&&!a.isDark(d+1,e)&&a.isDark(d+2,e)&&a.isDark(d+3,e)&&a.isDark(d+4,e)&&!a.isDark(d+5,e)&&a.isDark(d+6,e)&&(c+=40);for(var l=0,e=0;b>e;e++)for(var d=0;b>d;d++)a.isDark(d,e)&&l++;var m=Math.abs(100*l/b/b-50)/5;return c+=10*m},getRSBlocks:function(a,c){var d=f.getRsBlockTable(a,c);if(void 0==d)throw new Error("bad rs block @ typeNumber:"+a+"/errorCorrectLevel:"+c);for(var e=d.length/3,g=[],h=0;e>h;h++)for(var i=d[3*h+0],j=d[3*h+1],k=d[3*h+2],l=0;i>l;l++)g.push(new k_(j,k));return g},getRsBlockTable:function(a,b){switch(b){case d.L:return f.RS_BLOCK_TABLE[(a-1)*4+0];case d.M:return f.RS_BLOCK_TABLE[(a-1)*4+1];case d.Q:return f.RS_BLOCK_TABLE[(a-1)*4+2];case d.H:return f.RS_BLOCK_TABLE[(a-1)*4+3];default:return void 0}},RS_BLOCK_TABLE:[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]]};var g={glog:function(a){if(1>a)throw new Error("glog("+a+")");return g.LOG_TABLE[a]},gexp:function(a){for(;0>a;)a+=255;for(;a>=256;)a-=255;return g.EXP_TABLE[a]},EXP_TABLE:new Array(256),LOG_TABLE:new Array(256)};for(var h=0;8>h;h++)g.EXP_TABLE[h]=1<<h;for(var h=8;256>h;h++)g.EXP_TABLE[h]=g.EXP_TABLE[h-4]^g.EXP_TABLE[h-5]^g.EXP_TABLE[h-6]^g.EXP_TABLE[h-8];for(var h=0;255>h;h++)g.LOG_TABLE[g.EXP_TABLE[h]]=h;var i=g;var j=function(a,b){this.num=new Array(a.length+b),this.offset=b;for(var c=0;c<this.num.length;c++)this.num[c]=0;for(var c=0;c<a.length;c++)this.num[c]=a[c]};j.prototype={get:function(a){return this.num[a+this.offset]},getLength:function(){return this.num.length-this.offset},multiply:function(a){for(var b=new j(new Array(this.getLength()+a.getLength()-1),0),c=0;c<this.getLength();c++)for(var d=0;d<a.getLength();d++)b.num[c+d]^=i.gexp(i.glog(this.get(c))+i.glog(a.get(d)));return b},mod:function(a){if(this.getLength()-a.getLength()<0)return this;var b=i.glog(this.get(0))-i.glog(a.get(0));for(var c=new Array(this.getLength()),d=0;d<this.getLength();d++)c[d]=this.get(d);for(var d=0;d<a.getLength();d++)c[d]^=i.gexp(i.glog(a.get(d))+b);return new j(c,0).mod(a)}};var k_=function(a,b){this.totalCount=a,this.dataCount=b};var h=function(){this.buffer=[],this.length=0};h.prototype={get:function(a){var b=Math.floor(a/8);return 1==(this.buffer[b]>>>7-a%8&1)},put:function(a,b){for(var c=0;b>c;c++)this.putBit(1==(a>>>b-c-1&1))},getLengthInBits:function(){return this.length},putBit:function(a){var b=Math.floor(this.length/8);this.buffer.length<=b&&this.buffer.push(0),a&&(this.buffer[b]|=128>>>this.length%8),this.length++}};
+
+function makeQR(text, canvas, size) {
+  var qr = new b(0, d.M);
+  qr.addData(text);
+  qr.make();
+  var count = qr.getModuleCount();
+  var px = size / count;
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, size, size);
+  for (var row = 0; row < count; row++) {
+    for (var col = 0; col < count; col++) {
+      ctx.fillStyle = qr.isDark(row, col) ? '#1F3864' : '#fff';
+      ctx.fillRect(Math.round(col * px), Math.round(row * px), Math.ceil(px), Math.ceil(px));
+    }
+  }
+}
+
+var members = [
+  {code:"1591",  name:"اسامه اسماعيل محمد بيومى",          job:"مدير فرع"},
+  {code:"204",   name:"محمد عبد الفتاح صالح عبيد",           job:"محاسب شيكات"},
+  {code:"191",   name:"احمد محمد احمد محمد الشافعى",          job:"رئيس حسابات التوجيه المحاسبي"},
+  {code:"10429", name:"عبد الحميد عيد أحمد",                 job:"مدير كاشير"},
+  {code:"5790",  name:"محمد السيد مسعد محمد ابراهيم",         job:"مسئول موارد بشرية"},
+  {code:"11446", name:"طارق محمد اسماعيل محمد",              job:"اخصائى فعاليات"},
+  {code:"57",    name:"كريم عبد الرحمن يوسف عبد الفتاح",      job:"مشرف متابعة - الموارد البشرية"},
+  {code:"16441", name:"احمد جمال محمد عبد الراضى",            job:"سموحة"},
+  {code:"14780", name:"خالد محمد عبد اللطيف ابو النور احمد",  job:"فرد أمن"},
+  {code:"13878", name:"ادهم لطفى على حسين",                  job:"اخصائى فعاليات"},
+  {code:"754",   name:"ايمن عبد الله احمد عيد",               job:"الإدارات المركزية"},
+  {code:"256",   name:"هشام وحيد سعيد ابراهيم",               job:"الإدارات المركزية"},
+  {code:"1459",  name:"محمد يحيى امين منصور",                 job:"مسئول خدمات اجتماعية"},
+  {code:"7102",  name:"ناصف صلاح كامل محمد حسن",              job:"الشئون الادارية"},
+  {code:"230",   name:"اسامه محمد احمد مصطفى",                job:"محاسب شيكات"},
+  {code:"17577", name:"عمرو محمد حسن حافظ",                   job:"اخصائي تصوير"},
+  {code:"19542", name:"محمد احمد السيد",                       job:"مسؤول تشغيل سيارات"},
+  {code:"9598",  name:"عبدالله احمد محمد",                     job:"اخصائي دعاية واعلان"},
+  {code:"1756",  name:"محمد صالح محمد احمد",                   job:"الإدارات المركزية"},
+  {code:"20644", name:"مازن خالد مسعد يوسف",                   job:"أخصائي دعم فني"},
+  {code:"11448", name:"حسين محمد حسين محمد احمد",              job:"اخصائي شؤون ادارية"},
+  {code:"11136", name:"محمد جابر عبده احمد",                   job:"ستانلي"},
+  {code:"324119",name:"يوسف السيد احمد محمد احمد",              job:"طالب"},
+];
+
+function getInitials(name) {
+  var parts = name.trim().split(' ');
+  return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+}
+
+var p = new URLSearchParams(window.location.search);
+var code = p.get('code');
+var nameParam = p.get('name');
+var member = members.find(function(m){ return m.code === code; });
+if (!member && nameParam) member = members.find(function(m){ return m.name === decodeURIComponent(nameParam); });
+
+var displayName = member ? member.name : (nameParam ? decodeURIComponent(nameParam) : 'غير معروف');
+var displayCode = member ? member.code : (code || '---');
+var displayJob  = member ? member.job  : '';
+
+document.getElementById('content').innerHTML =
+  '<div class="avatar">' + getInitials(displayName) + '</div>' +
+  '<div class="member-name">' + displayName + '</div>' +
+  '<div class="member-code">كود: ' + displayCode + '</div>' +
+  '<div class="member-job">' + displayJob + '</div>' +
+  '<div class="status-badge">✅ مشترك نشط</div>' +
+  '<div class="divider"></div>' +
+  '<div class="qr-label">امسح الكود للتحقق من هوية المشترك</div>' +
+  '<div id="qrcode"><canvas id="qrcanvas"></canvas></div>' +
+  '<button class="share-btn" onclick="shareProfile()">📤 مشاركة البطاقة</button>';
+
+var qrText = 'اسم: ' + displayName + ' | كود: ' + displayCode;
+makeQR(qrText, document.getElementById('qrcanvas'), 200);
+
+function shareProfile() {
+  if (navigator.share) {
+    navigator.share({ title: 'بطاقة المشترك - جيم', url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('تم نسخ الرابط!');
+  }
+}
+</script>
+</body>
+</html>
